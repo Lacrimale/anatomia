@@ -1,0 +1,54 @@
+ANATOMİ QUIZ – KULLANIM
+
+1. Bu klasörü zip'ten çıkar (zip'in içinden açma, önce "Tümünü ayıkla" de).
+2. Klasörün içindeki index.html dosyasına çift tıkla.
+3. Chrome, Edge veya Firefox'ta açılır.
+
+- Şu dosyalar aynı klasörde durmalı; ayırırsan ilgili bölüm çalışmaz:
+  index.html, kaslar.js, kaynaklar.js, model3d.js, yerler.js, sesler1.js, sesler2.js
+  ve "pdf" klasörü (ders slaytları ve çıkmışlar burada durur)
+  Telefona kurulum için ayrıca: manifest.webmanifest, sw.js ve "ikon" klasörü
+  (nasıl kurulacağı "TELEFON KURULUM.txt" dosyasında yazıyor)
+- İnternet GEREKEN bölümler: 3D model ve sözlükteki "Nerede?" resmi.
+  Geri kalan her şey (quiz, sözlük, dinleme, ilerleme, PDF'ler) internetsiz çalışır.
+- İlk açılışta sesler birkaç saniyede yüklenir.
+
+SEKMELER
+- Quiz     : yazılı, test, görsel, komşuluk ve eşleştirme soruları.
+             Eşleştirme: hangi eklem yüzeyi hangisiyle eklem yapar, hangi kemiğin
+             lateralinde / arkasında hangi kemik var, kas–sinir, kas–fonksiyon, terim–anlam.
+- Sözlük   : tüm terimler A–Z; Kemikler / Kaslar / Eklemler / Terminoloji diye ayrılır.
+             Bir kelimeye dokununca detay açılır.
+             KIRMIZI yazı = slaytta yazan bilgi, SİYAH yazı = ek bilgi.
+             "Nerede?" resmi: kemiği gösterir ve o yeri turuncu okla işaretler
+             (ör. Caput humeri → humerus üzerinde). Sürükleyerek çevirebilirsin.
+             "Bu konunun slaytları": o konunun PDF'ini doğrudan açar.
+- Dinle    : terimleri podcast gibi sırayla okur.
+- Görsel   : "3D model" ve "Şema" olmak üzere iki görünüm.
+             3D model: bir bölge seç. Sürükle = çevir, tekerlek / iki parmak = yakınlaştır,
+             bir yapıya dokun = seç (parlak yeşil olur, ok ve isim çıkar), çift tık = sıfırla.
+             Bölge adının yanındaki sayı yaklaşık veri boyutudur (4–50 MB).
+- Kaynaklar: konuların ders slaytları ve çıkmış sorular. PDF'ler uygulamanın içindeki
+             "pdf" klasöründen açılır (Drive'a gidilmez). Dosyası henüz eklenmemiş
+             kaynakların yanında "PDF henüz eklenmedi" yazar.
+             "Kaynak ekle": PDF yükle ya da bağlantı yapıştır. Eklediğin kaynak yalnızca
+             o cihazda görünür.
+- İlerleme : çözdüğün her soru konu konu kaydedilir. Bir konudan en az 5 soru çözüp
+             başarın %60'ın altında kalırsa "bence bu konuyu çalışmalısın" önerisi çıkar.
+
+SES VE GÖRÜNÜM AYARLARI (üstteki düğme)
+- Hazır kayıt  : uygulamayla gelen sesler (internetsiz, ekran kapalıyken de çalar).
+- Kadın / Erkek: cihazındaki Türkçe konuşma sesini kullanır. Cihazda o cinsiyette ses
+                 yoksa mevcut ses inceltilir ya da kalınlaştırılır.
+- Görünüm      : açık / koyu / cihaza göre. Renk paleti: #11224E, #F87B1B, #CBD99B, #EEEEEE.
+
+DÜZENLEMEK İSTERSEN
+- Yeni terim            : kaslar.js (başında "!" olan bilgi kırmızı, olmayan siyah görünür)
+- Yeni kaynak / PDF     : PDF'i pdf klasörüne koy, kaynaklar.js listesine satır ekle,
+                          pdf/liste.js içine kimliğini yaz (ayrıntı kaynaklar.js başında)
+- Ortak yükleme klasörü : kaynaklar.js içindeki ORTAK_KLASOR satırına klasör bağlantısını yaz
+- Kemik üzerindeki yerler: yerler.js
+
+3D MODEL KAYNAĞI
+- BodyParts3D, (c) The Database Center for Life Science,
+  CC Attribution-Share Alike 2.1 Japan lisansı. Modeller sağ taraf yapılarını gösterir.

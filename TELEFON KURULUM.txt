@@ -1,0 +1,42 @@
+ANATOMIA – TELEFONDA KULLANIM VE KURULUM
+
+Telefona "uygulama" olarak kurmak için uygulamanın bir internet adresinde (https) durması gerekir.
+Bilgisayardaki klasör telefona doğrudan kurulamaz. Sıra şöyle:
+
+1) UYGULAMAYI BİR ADRESE YÜKLE (bir kez yapılır)
+   - Bu klasörün tamamı ücretsiz bir siteye yüklenir ve bir adres alınır (ör. https://anatomia.ornek.app).
+   - Dikkat: "pdf" klasörü yaklaşık 757 MB. Ücretsiz sitelerin çoğu bu boyutu kabul etmez.
+     Ya PDF'lerin bir kısmı seçilir ya da PDF'ler dışarıda bırakılır (uygulamanın kalanı ~25 MB).
+   - Adres herkese açık olur; PDF'leri koyarsan ders slaytları da herkese açık olur.
+
+2) ANDROID (Chrome)
+   a. Chrome'da uygulamanın adresini aç.
+   b. Üstteki "Ses ve görünüm ayarları"na dokun; "Uygulamayı kur" düğmesi çıkarsa ona bas.
+      Çıkmazsa Chrome menüsü (sağ üstte üç nokta) > "Uygulamayı yükle" ya da "Ana ekrana ekle".
+   c. Ana ekranda "Anatomia" simgesi oluşur; artık oradan açılır.
+
+3) iPHONE / iPAD (Safari)
+   a. Safari'de uygulamanın adresini aç (Chrome değil, Safari olmalı).
+   b. Alttaki Paylaş düğmesine (kare içinden yukarı ok) dokun.
+   c. "Ana Ekrana Ekle"yi seç, "Ekle"ye bas.
+   d. Ana ekranda "Anatomia" simgesi oluşur.
+
+4) İNTERNETSİZ KULLANIM
+   - Kurulumdan sonra uygulamayı internet varken bir kez aç ve 1-2 dakika açık bırak:
+     quiz, sözlük, dinleme ve sesler (yaklaşık 22 MB) telefona iner.
+   - Bundan sonra quiz, sözlük, dinleme ve ilerleme internetsiz çalışır.
+   - Bir PDF'i internet varken bir kez açarsan o PDF de telefonda saklanır, sonra internetsiz açılır.
+   - 3D modeller ve "Nerede?" resimleri de ilk açılışta iner, sonra saklanır.
+     Hiç açmadığın bir bölge için internet gerekir.
+
+5) BİLMEN GEREKENLER
+   - İlerleme kaydın her cihazda ayrıdır; telefondaki ilerleme bilgisayara geçmez.
+   - Telefonda tarayıcı verilerini / site verilerini silersen ilerleme ve saklanan dosyalar da silinir.
+   - Uygulamada bir şey değiştirilirse sw.js dosyasındaki SURUM satırı da değiştirilmelidir;
+     yoksa telefonlar eski dosyaları göstermeye devam edebilir.
+   - Kadın / erkek sesi telefonun kendi Türkçe konuşma sesini kullanır; telefonda Türkçe ses
+     yüklü değilse Ayarlar > Erişilebilirlik / Metin okuma bölümünden indirilebilir.
+
+GEÇİCİ YOL (kurmadan, yalnız Android)
+   - Klasörü telefona kopyalayıp index.html'i bir tarayıcıyla açmak bazı telefonlarda çalışır,
+     ama sesler ve PDF'ler çoğu zaman açılmaz. Önerilmez.

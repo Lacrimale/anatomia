@@ -1,0 +1,16 @@
+{
+  "name": "Anatomia – Anatomi Quiz",
+  "short_name": "Anatomia",
+  "description": "Anatomi terimleri, sözlük, quiz, 3D model ve ders kaynakları",
+  "lang": "tr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#EEEEEE",
+  "theme_color": "#11224E",
+  "icons": [
+    { "src": "ikon/ikon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "ikon/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
