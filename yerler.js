@@ -110,7 +110,12 @@ const KEMIK={
   "Squama frontalis":Q(.5,1,[.5,.5,1.2]),"Tuber frontale":Q(.5,.75,[.72,.5,1.2]),"Arcus superciliaris":Q(.25,.42,[.66,.5,1.2]),
   "Glabella":Q(.2,.36,[.5,.5,1.2]),"Processus zygomaticus (os frontale)":E(0,.4,[1,-.3,.2]),"Pars orbitalis":Q(0,.35,[.72,-.2,.5]),
   "Margo parietalis (os frontale)":E(.5,1,[0,.6,-1],.35,.65),"Pars nasalis":E(0,.25,[0,-1,.5],.4,.6),"Nasion":E(0,.25,[0,-1,.5],.4,.6),
-  "Facies temporalis (os frontale)":Q(.25,.6,[1.2,.5,.55]),"Sulcus sinus sagittalis superioris":Q(.6,.9,[.5,.5,-.2]),"Crista frontalis":Q(.25,.5,[.5,.5,-.2])}},
+  "Facies temporalis (os frontale)":Q(.25,.6,[1.2,.5,.55]),"Sulcus sinus sagittalis superioris":Q(.6,.9,[.5,.5,-.2]),"Crista frontalis":Q(.25,.5,[.5,.5,-.2]),
+  "Margo supraorbitalis":Q(.12,.26,[.72,.5,1.2]),"Incisura supraorbitalis":Q(.14,.24,[.63,.5,1.2]),"Incisura frontalis":Q(.14,.24,[.57,.5,1.2]),
+  "Sutura frontalis metopica":Q(.45,.8,[.5,.5,1.2]),"Sinus frontalis":Q(.2,.36,[.55,.5,1.2]),"Margo sphenoidalis (os frontale)":E(0,.3,[.3,0,-1],.6,.9),
+  "Linea temporalis":Q(.3,.5,[1.2,.5,.75]),"Incisura ethmoidalis":Q(0,.3,[.5,-.2,.4]),"Foveolae ethmoidales":Q(0,.25,[.58,-.2,.4]),
+  "Fossa glandulae lacrimalis":Q(0,.3,[.85,-.2,.75]),"Fovea trochlearis":Q(0,.3,[.6,-.2,.8]),"Juga cerebralia":Q(0,.3,[.72,1.2,.45]),
+  "Impressiones gyrorum":Q(0,.3,[.76,1.2,.55]),"Incisura nasalis":Q(0,.15,[.56,-.2,.9]),"Spina nasalis (os frontale)":Q(0,.1,[.5,-.2,.92])}},
  noc:{f:52735,ad:'Os occipitale',t:{
   "Squama occipitalis":Q(.55,1,[.5,.5,-.2]),"Protuberantia occipitalis externa":E(0,1,[0,0,-1],.4,.6),"Planum occipitale":Q(.7,.95,[.5,.5,-.2]),
   "Crista occipitalis externa":Q(0,.45,[.5,-.2,.22]),"Margo lambdoideus":E(.6,1,[1,.3,0]),"Margo mastoideus":E(.15,.5,[1,0,0]),
