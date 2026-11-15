@@ -116,6 +116,27 @@ const KEMIK={
   "Linea temporalis":Q(.3,.5,[1.2,.5,.75]),"Incisura ethmoidalis":Q(0,.3,[.5,-.2,.4]),"Foveolae ethmoidales":Q(0,.25,[.58,-.2,.4]),
   "Fossa glandulae lacrimalis":Q(0,.3,[.85,-.2,.75]),"Fovea trochlearis":Q(0,.3,[.6,-.2,.8]),"Juga cerebralia":Q(0,.3,[.72,1.2,.45]),
   "Impressiones gyrorum":Q(0,.3,[.76,1.2,.55]),"Incisura nasalis":Q(0,.15,[.56,-.2,.9]),"Spina nasalis (os frontale)":Q(0,.1,[.5,-.2,.92])}},
+ /* sphenoid, ethmoid, temporal: girintili kemikler; işaretler yaklaşık yeri gösterir */
+ nsp:{f:52736,ad:'Os sphenoidale',t:{
+  "Hamulus pterygoideus":E(0,.1,[0,-1,0],.5,1),"Lamina lateralis processus pterygoidei":E(.05,.3,[1,0,0],.5,1),"Lamina medialis processus pterygoidei":Q(.05,.3,[.56,.5,-.2]),
+  "Processus pterygoideus":Q(.1,.35,[.64,.5,-.2]),"Ala major":E(.4,1,[1,.3,0]),"Facies temporalis (ala major)":Q(.5,.9,[1.2,.5,.5]),
+  "Facies cerebralis (ala major)":Q(.4,.8,[.8,1.2,.4]),"Facies orbitalis (ala major)":Q(.5,.9,[.75,.5,1.2]),"Facies maxillaris (ala major)":Q(.3,.5,[.68,.5,1.2]),
+  "Crista infratemporalis":Q(.35,.5,[1.2,.5,.5]),"Ala minor":Q(.7,1,[.7,1.2,.85]),"Processus clinoideus anterior":Q(.7,1,[.6,1.2,.6]),
+  "Canalis opticus":Q(.65,.9,[.58,.5,1.2]),"Fissura orbitalis superior":Q(.55,.8,[.68,.5,1.2]),"Corpus (os sphenoidale)":Q(.4,.7,[.5,.5,1.2]),
+  "Sinus sphenoidalis":Q(.4,.7,[.5,.5,1.2]),"Crista sphenoidalis":Q(.45,.75,[.5,.5,1.2]),"Sella turcica":Q(.5,1,[.5,1.2,.5]),"Fossa hypophysialis":Q(.5,1,[.5,1.2,.5]),
+  "Tuberculum sellae":Q(.5,1,[.5,1.2,.65]),"Dorsum sellae":E(.6,1,[0,1,-.8],.45,.55),"Processus clinoideus posterior":E(.6,1,[.2,1,-.8],.55,.65),
+  "Processus clinoideus medius":Q(.5,1,[.56,1.2,.62]),"Foramen rotundum":Q(.3,.7,[.66,1.2,.6]),"Foramen ovale":Q(.3,.7,[.72,1.2,.3]),"Foramen spinosum":Q(.3,.7,[.78,1.2,.15])}},
+ net:{f:52740,ad:'Os ethmoidale',t:{
+  "Crista galli":E(0,1,[0,1,0],.4,.6),"Lamina cribrosa":Q(.6,1,[.7,1.2,.5]),"Foramina cribrosa":Q(.6,1,[.7,1.2,.62]),"Lamina perpendicularis":E(0,1,[0,-1,0],.4,.6),
+  "Labyrinthus ethmoidalis":E(0,1,[1,0,0]),"Cellulae ethmoidales":Q(.3,.8,[1.2,.5,.5]),"Concha nasalis media":E(0,.3,[.3,-1,0],.6,.9),"Concha nasalis superior":Q(.3,.6,[.68,.5,-.2])}},
+ nte:{f:52738,ad:'Os temporale (sağ)',t:{
+  "Pars squamosa":Q(.6,1,[1.2,.5,.6]),"Processus zygomaticus (os temporale)":E(0,1,[0,0,1]),"Processus mastoideus":Q(0,.4,[.78,-.2,.22]),"Pars mastoidea":Q(.1,.45,[1.2,.5,.2]),
+  "Processus styloideus":E(0,.3,[0,-1,.3],.15,.6),"Pars petrosa":E(0,1,[-1,0,.2]),"Porus acusticus externus":Q(.3,.5,[1.2,.5,.45]),"Pars tympanica":Q(.25,.4,[1.2,.5,.48]),
+  "Spina suprameatica":Q(.42,.55,[1.2,.5,.42]),"Trigonum suprameatum":Q(.42,.55,[1.2,.5,.4]),"Fossa mandibularis":Q(.2,.5,[.8,-.2,.6]),"Tuberculum articulare":Q(.2,.5,[.8,-.2,.72]),
+  "Fissura petrotympanica":Q(.2,.5,[.75,-.2,.55]),"Sulcus arteriae temporalis mediae":Q(.55,.8,[1.2,.5,.5]),"Eminentia arcuata":Q(.3,.7,[.3,1.2,.45]),"Tegmen tympani":Q(.3,.7,[.5,1.2,.5]),
+  "Impressio trigeminalis":Q(.3,.6,[.12,.75,.6]),"Porus acusticus internus":Q(.3,.6,[-.2,.5,.4]),"Meatus acusticus internus":Q(.3,.6,[-.2,.5,.4]),"Fossa subarcuata":Q(.4,.65,[-.2,.5,.3]),
+  "Canalis caroticus":Q(0,.4,[.3,-.2,.55]),"Fossa jugularis":Q(0,.4,[.35,-.2,.35]),"Foramen stylomastoideum":Q(0,.4,[.62,-.2,.32]),"Incisura mastoidea":Q(0,.4,[.7,-.2,.15]),
+  "Sulcus arteriae occipitalis":Q(0,.4,[.6,-.2,.12])}},
  noc:{f:52735,ad:'Os occipitale',t:{
   "Squama occipitalis":Q(.55,1,[.5,.5,-.2]),"Protuberantia occipitalis externa":E(0,1,[0,0,-1],.4,.6),"Planum occipitale":Q(.7,.95,[.5,.5,-.2]),
   "Crista occipitalis externa":Q(0,.45,[.5,-.2,.22]),"Margo lambdoideus":E(.6,1,[1,.3,0]),"Margo mastoideus":E(.15,.5,[1,0,0]),
