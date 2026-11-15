@@ -161,10 +161,37 @@ function viewOf(sp){
   const [u,v,w]=sp.q;if(v>1.1)return 'ust';if(v<-0.1)return 'alt';
   if(w>=0.75)return 'on';if(w<=0.25)return 'arka';return u>=0.75?'ondis':u<=0.25?'onic':'on'}
 const ARKA=['subocc','sirt','sirtderin','uylukarka','bacakarka','kalca'];
+/* Yedek: terimin grubuna göre gösterilecek kemik(ler). [açıklama, dosyalar, bakış] */
+const KAFA=[52734,52788,52789,52735,52738,52739,52736,53649,53650,52748,52892,52893,53647,53648],
+  UST=[13322,13395,23130,23464,23467],ALT=[16586,24474,24486,24477,24480],
+  EL=[24435,24437,24439,24441,24443,23725,24446,24448,24464,24466,24468,24470,24472,24450,24451,24452,24453,24454],
+  AYAK=[24482,24497,24500,24528,24521,24523,24525,24507,24509,24511,24513,24515,43253,32634,32636,32638,32640],
+  OMUR=[12519,12520,12523,9945,13074,16202];
+const GRUP={
+ bas:['Baş kemikleri',KAFA],kaf:['Kafa kemikleri',KAFA],ncg:['Kafatası',KAFA],bd:['Kafatası',KAFA],
+ nfr:['Os frontale',[52734]],noc:['Os occipitale',[52735],'arka'],nsp:['Os sphenoidale',[52736]],net:['Os ethmoidale',[52740]],
+ npa:['Os parietale (sağ)',[52788],'ondis'],nte:['Os temporale (sağ)',[52738],'ondis'],
+ govde:['Gövde iskeleti',[7486,7487,7488,13074,16202,16586,16587]],bv:['Gövde iskeleti',[7486,7487,7488,13074,16202,16586,16587]],
+ omg:['Omurga ve sternum',[...OMUR,7486,7487,7488]],cvg:['3. bel omuru',[13074]],cvc:['5. boyun omuru',[12523]],cvt:['6. göğüs omuru',[9945]],cvl:['3. bel omuru',[13074]],
+ csa:['Os sacrum',[16202]],cst:['Sternum',[7486,7487,7488]],ccs:['7. kaburga (sağ)',[8229]],
+ ust:['Üst ekstremite kemikleri',UST],uek:['Üst ekstremite kemikleri',UST],skp:['Scapula',[13395]],hum:['Humerus',[23130]],
+ uln:['Ulna',[23467]],rad:['Radius',[23464]],rul:['Radius ve ulna',[23464,23467]],elb:['El kemikleri',[23464,23467,...EL]],
+ alt:['Alt ekstremite kemikleri',ALT],aek:['Alt ekstremite kemikleri',ALT],oxc:['Os coxae',[16586]],fem:['Femur',[24474]],tib:['Tibia',[24477]],fib:['Fibula',[24480]],
+ ayb:['Ayak kemikleri',[24477,24480,...AYAK]],jar:['Ayak kemikleri',AYAK,'onic'],
+ jus:['Üst ekstremite eklemlerini yapan kemikler',[...UST,...EL]],jal:['Alt ekstremite eklemlerini yapan kemikler',[...ALT,...AYAK]],jlg:['Alt ekstremite kemikleri',[...ALT,...AYAK]],
+ kk4:['Kalça kemiği ve femur',[16586,24474,16202],'arka'],ku4:['Kalça kemiği ve femur',[16586,24474,24477]],kb5:['Diz çevresi kemikleri',[24474,24477,24480],'arka'],
+ kk2:['Kalça kemiği ve femur',[16586,24474,24477],'ondis'],ko1:['Omuz kemikleri',[13322,13395,23130]],ko3:['Omuz kemikleri',[13322,13395,23130],'arka'],
+ ks2:['Omurga',OMUR,'arka'],ks4:['Omurga ve scapula',[...OMUR,13395,52735],'arka'],
+ kp1:['Pelvis kemikleri',[16586,16587,16202]],kp2:['Pelvis kemikleri',[16586,16587,16202],'alt'],kp3:['Pelvis kemikleri',[16586,16587,16202],'alt'],
+ kn2:['Boyun omurları',[52735,12519,12520,12523,12525]],ks1:['Omurga ve scapula',[...OMUR,13395],'arka'],kh2:['El kemikleri',EL]
+};
 function find(t){
   const k=KEMIK[t.g],sp=k&&k.t[t.la];
   if(sp)return {ctx:sp.f||[k.f],hi:[],label:t.la,sub:(sp.ad||k.ad)+' üzerinde',view:viewOf(sp),mark:ms=>resolve(sp,ms)};
-  const f=window.M3D&&M3D.find(t);if(!f)return null;
+  const f=window.M3D&&M3D.find(t);
+  if(!f){ // tam yeri kuralla bulunamayan terim: ilgili kemik(ler) bütün olarak gösterilir, ok konmaz
+    const g=GRUP[t.g];if(!g)return null;
+    return {ctx:g[1],hi:[],label:t.la,sub:g[0]+' · tam yeri işaretli değil',view:g[2]||'on',mark:null,genel:true}}
   const items=M3D.SCENES[f.scene][2],it=items[f.i],ctx=[];
   if(it.t==='m'){for(const b of items){if(b.t!=='k'||b.ids.length>2)continue;for(const id of b.ids)if(ctx.length<3)ctx.push(id)}}
   else{[items[f.i-1],items[f.i+1]].forEach(b=>{if(b&&b.t==='k'&&b.ids.length===1&&it.ids.length<=2)ctx.push(b.ids[0])})}

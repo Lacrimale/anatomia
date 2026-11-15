@@ -2581,7 +2581,8 @@ try{const s=JSON.parse(localStorage.getItem('anat-voice')||'{}');
   if(s.mode==='tr'||s.mode==='la')$('#voiceMode').value=s.mode;if(s.rate)$('#rate').value=s.rate}catch(e){}
 const vsSave=()=>{try{localStorage.setItem('anat-voice',JSON.stringify({src:VS.src,pick:VS.pick,theme:VS.theme,mode:$('#voiceMode').value,rate:$('#rate').value}))}catch(e){}};
 /* cihaz seslerinin cinsiyeti tarayıcıdan öğrenilemez; bilinen ses adlarından tahmin edilir */
-const genderOf=v=>/female|kad[ıi]n|woman/i.test(v.name)?'k':/tolga|cem\b|ahmet|murat|\bmale|erkek/i.test(v.name)?'e':/emel|yelda|filiz|seda|zeynep|ay[sş]e|elif|google t[uü]rk/i.test(v.name)?'k':'';
+const genderOf=v=>{const n=(v.name||'')+' '+(v.voiceURI||''); // Android sesleri adında değil kodunda ayrışır (ör. tr-tr-x-tmc)
+  return /female|kad[ıi]n|woman/i.test(n)?'k':/tolga|cem\b|ahmet|murat|\bmale|erkek|x-(ama|tmc)\b|#male/i.test(n)?'e':/emel|yelda|filiz|seda|zeynep|ay[sş]e|elif|google t[uü]rk|x-(efu|mfm)\b/i.test(n)?'k':''};
 function chooseVoice(lang){ // lang: 'tr' (Türkçe okunuş) | 'la' (Latince yazım)
   const pref=lang==='tr'?['tr']:['it','la','es'];let cand=[];
   for(const p of pref){cand=voices.filter(x=>x.lang&&x.lang.toLowerCase().startsWith(p));if(cand.length)break}
@@ -2591,7 +2592,8 @@ function chooseVoice(lang){ // lang: 'tr' (Türkçe okunuş) | 'la' (Latince yaz
   if(!want)return {v:cand[0],pitch:1};
   const hit=cand.find(x=>genderOf(x)===want);if(hit)return {v:hit,pitch:1};
   const v=cand.find(x=>!genderOf(x))||cand[0],g=genderOf(v); // uygun ses yoksa perdeyi değiştir
-  return {v,pitch:want==='k'?(g==='e'?1.5:1.3):(g==='k'?0.55:0.7)}}
+  // telefonlarda tek Türkçe ses çoğunlukla kadın sesidir; erkek istenip bulunamazsa belirgin biçimde kalınlaştır
+  return {v,pitch:want==='k'?(g==='e'?1.5:1.3):0.5}}
 
 /* hazır ses kaydı varsa adresini verir (yalnızca “Hazır kayıt” seçiliyken) */
 function clipFor(key){if($('#voiceMode').value!=='tr'||VS.src!=='hazir')return null;return AUD&&AUD[key]?AUD[key]:null}
@@ -2600,7 +2602,7 @@ function voiceUI(){
   $('#voiceSrc').value=VS.src;$('#themeSel').value=VS.theme;
   const tr=voices.filter(v=>v.lang&&v.lang.toLowerCase().startsWith('tr')),tts=VS.src==='kadin'||VS.src==='erkek';
   $('#voicePickWrap').hidden=!tts||!tr.length;
-  $('#voicePick').innerHTML='<option value="">Otomatik seç</option>'+tr.map(v=>{const g=genderOf(v);return `<option value="${esc(v.name)}"${v.name===VS.pick?' selected':''}>${esc(v.name)}${g==='k'?' · kadın':g==='e'?' · erkek':''}</option>`}).join('');
+  $('#voicePick').innerHTML='<option value="">Otomatik seç</option>'+tr.map(v=>{const g=genderOf(v);return `<option value="${esc(v.name)}"${v.name===VS.pick?' selected':''}>${esc(v.name)}${v.voiceURI&&v.voiceURI!==v.name?' ('+esc(String(v.voiceURI).slice(-12))+')':''}${g==='k'?' · kadın':g==='e'?' · erkek':''}</option>`}).join('');
   let note;
   if(tts){const want=VS.src==='kadin'?'k':'e';
     if(!('speechSynthesis' in window))note='Bu tarayıcı sesli okumayı desteklemiyor.';
