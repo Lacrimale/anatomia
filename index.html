@@ -551,6 +551,7 @@ body.tab-atlas .wrap{max-width:1180px}
 </div>
 
 <script src="kaslar.js"></script>
+<script src="kafatasi.js"></script>
 <script>
 /* ---------- DATA ---------- */
 const GROUPS = {
@@ -2640,7 +2641,7 @@ const CATS={all:'Tümü',kemik:'Kemikler',kas:'Kaslar',eklem:'Eklemler',genel:'T
 const CATMAP={};
 'osteo kafak govk ekstk bilek ncgen nfront nocc nsph neth npar ntemp cvgen cvbol sacr stc skapula humerus radul koxa femur tibfib'.split(' ').forEach(k=>CATMAP[k]='kemik');
 'eust ealt earc eklem ehar eyapi'.split(' ').forEach(k=>CATMAP[k]='eklem');
-Object.keys(EK.topics).forEach(k=>CATMAP[k]='kas');
+Object.keys(EK.topics).forEach(k=>CATMAP[k]=(EK.cat&&EK.cat[k])||'kas');
 const catOf=t=>CATMAP[t.topic]||'genel';
 const bareLa=la=>la.replace(/^Mm?\.\s*/,'');
 const sortKey=t=>norm(bareLa(t.la));

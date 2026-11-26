@@ -152,7 +152,9 @@ const KEMIK={
 };
 /* kuralı 3D modele uygula: sağ taraf kemiği → dış (lateral) = −x, ön = +z, yukarı = +y */
 function resolve(sp,meshes){
-  const ms=meshes.filter(m=>!m.hi);if(!ms.length)return null;
+  let ms=meshes.filter(m=>!m.hi);
+  if(sp.on){const on=ms.filter(m=>sp.on.includes(m.fid));if(on.length)ms=on} // okun aranacağı kemik (bağlam için başka kemikler de gösterilebilir)
+  if(!ms.length)return null;
   let y0=1e9,y1=-1e9;ms.forEach(m=>{y0=Math.min(y0,m.mn[1]);y1=Math.max(y1,m.mx[1])});
   const H=y1-y0,a=y0+sp.y[0]*H,b=y0+sp.y[1]*H;
   let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -211,7 +213,32 @@ const GRUP={
  kp1:['Pelvis kemikleri',[16586,16587,16202]],kp2:['Pelvis kemikleri',[16586,16587,16202],'alt'],kp3:['Pelvis kemikleri',[16586,16587,16202],'alt'],
  kn2:['Boyun omurları',[52735,12519,12520,12523,12525]],ks1:['Omurga ve scapula',[...OMUR,13395],'arka'],kh2:['El kemikleri',EL]
 };
+/* vurgulanan kemiklerin ağırlık merkezine en yakın yüzey noktası */
+function merkez(ms){const hs=ms.filter(m=>m.hi);let s=[0,0,0],n=0;hs.forEach(m=>{for(let c=0;c<3;c++)s[c]+=m.sum[c];n+=m.pos.length/3});if(!n)return null;
+  const c=[s[0]/n,s[1]/n,s[2]/n];let best=null,bd=1e18;hs.forEach(m=>{const p=m.pos;for(let i=0;i<p.length;i+=9){const d=(p[i]-c[0])**2+(p[i+1]-c[1])**2+(p[i+2]-c[2])**2;if(d<bd){bd=d;best=[p[i],p[i+1],p[i+2]]}}});return best}
+/* vurgulanan kemiğin, verilen bakış yönünden görünen yüzündeki orta nokta:
+   kemiğin merkezinden geçen bakış ekseni çevresinde (yarıçapın %35'i) en öndeki köşe */
+const YON={on:[0,0,1],arka:[0,0,-1],dis:[-1,0,0],ic:[1,0,0],ust:[0,1,0],alt:[0,-1,0],ondis:[-.71,0,.71],onic:[.71,0,.71],arkadis:[-.71,0,-.71],arkaic:[.71,0,-.71]};
+function yuzNokta(v){const d=YON[v]||YON.on;return ms=>{
+  const hs=ms.filter(m=>m.hi);if(!hs.length)return null;
+  let s=[0,0,0],n=0,R=0;hs.forEach(m=>{for(let c=0;c<3;c++)s[c]+=m.sum[c];n+=m.pos.length/3;R=Math.max(R,Math.hypot(m.mx[0]-m.mn[0],m.mx[1]-m.mn[1],m.mx[2]-m.mn[2])/2)});
+  const c=[s[0]/n,s[1]/n,s[2]/n];
+  for(const lim of [.35*R,.7*R,1e9]){let best=null,bs=-1e18;
+    hs.forEach(m=>{const p=m.pos;for(let i=0;i<p.length;i+=3){const q=[p[i]-c[0],p[i+1]-c[1],p[i+2]-c[2]],a=q[0]*d[0]+q[1]*d[1]+q[2]*d[2];
+      const perp=Math.hypot(q[0]-a*d[0],q[1]-a*d[1],q[2]-a*d[2]);if(perp<=lim&&a>bs){bs=a;best=[p[i],p[i+1],p[i+2]]}}});
+    if(best)return best}
+  return null}}
 function find(t){
+  if(t.yer){ // terimin kendi verisinde tanımlı konum (ör. kafatasi.js)
+    const y=t.yer;let r=y.r||null,on=y.on,base=[].concat(y.f||[]),ad=y.ad||'';
+    if(y.ref){const [g,n]=y.ref.split(':'),k=KEMIK[g],s=k&&k.t[n];
+      if(s){r=s;const bf=[].concat(s.f||k.f);if(!on)on=bf;bf.forEach(f=>{if(!base.includes(f))base.push(f)});if(!ad)ad=s.ad||k.ad}}
+    if(y.hi){ // kemiğin kendisi: kafatası içinde vurgulanır, ok kemiğin bakılan yüzündeki orta noktasını gösterir
+      return {ctx:base.filter(f=>!y.hi.includes(f)),hi:y.hi,label:t.la,sub:y.ad||'Kafatası içinde',view:y.v||'on',mark:yuzNokta(y.v||'on')}}
+    if(r&&!on)on=null;
+    const ok=r?Object.assign({},r,on?{on}:{}):null;
+    return {ctx:base,hi:[],label:t.la,sub:(ad||'Kafatası')+(ok?' üzerinde':' · tam yeri işaretli değil'),view:y.v||(ok?viewOf(ok):'on'),
+      mark:ok?ms=>resolve(ok,ms):null,genel:!ok}}
   const k=KEMIK[t.g],sp=k&&k.t[t.la];
   if(sp)return {ctx:sp.f||[k.f],hi:[],label:t.la,sub:(sp.ad||k.ad)+' üzerinde',view:viewOf(sp),mark:ms=>resolve(sp,ms)};
   const f=window.M3D&&M3D.find(t);

@@ -350,11 +350,11 @@ async function locShow(box,spec){
   locMsg('Model yükleniyor…');locDraw();
   const jobs=[...(spec.ctx||[]).map(f=>[f,false]),...(spec.hi||[]).map(f=>[f,true])];
   try{
-    const res=await Promise.all(jobs.map(async([fid,hi])=>[parseSTL(await fetchSTL(fid,undefined,()=>{})),hi]));
+    const res=await Promise.all(jobs.map(async([fid,hi])=>[parseSTL(await fetchSTL(fid,undefined,()=>{})),hi,fid]));
     if(id!==L.id)return;const g=L.gl;
-    res.forEach(([m,hi])=>{const vp=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,vp);g.bufferData(g.ARRAY_BUFFER,m.pos,g.STATIC_DRAW);
+    res.forEach(([m,hi,fid])=>{const vp=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,vp);g.bufferData(g.ARRAY_BUFFER,m.pos,g.STATIC_DRAW);
       const vn=g.createBuffer();g.bindBuffer(g.ARRAY_BUFFER,vn);g.bufferData(g.ARRAY_BUFFER,m.nor,g.STATIC_DRAW);
-      L.meshes.push({vp,vn,count:m.n*3,pos:m.pos,mn:m.mn,mx:m.mx,sum:m.sum,hi})});
+      L.meshes.push({vp,vn,count:m.n*3,pos:m.pos,mn:m.mn,mx:m.mx,sum:m.sum,hi,fid})});
     const mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9];L.meshes.forEach(m=>{for(let c=0;c<3;c++){mn[c]=Math.min(mn[c],m.mn[c]);mx[c]=Math.max(mx[c],m.mx[c])}});
     L.cam.target=[(mn[0]+mx[0])/2,(mn[1]+mx[1])/2,(mn[2]+mx[2])/2];L.radius=Math.hypot(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2])/2;L.fit=true;
     try{L.mark=spec.mark?spec.mark(L.meshes):null}catch(e){L.mark=null}

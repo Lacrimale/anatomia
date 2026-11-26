@@ -3,8 +3,8 @@
    - PDF'ler ve yazı tipleri ilk açıldıklarında önbelleğe alınır; sonra internetsiz açılır.
    - 3D modelleri uygulamanın kendisi ayrıca saklar (bp3d-v2).
    Uygulamayı güncellediğinde aşağıdaki SURUM değerini değiştir; telefonlar yeni dosyaları alır. */
-const SURUM = 'anatomia-v4';
-const KABUK = ['./', 'index.html', 'kaslar.js', 'kaynaklar.js', 'model3d.js', 'yerler.js', 'pdf/liste.js',
+const SURUM = 'anatomia-v5';
+const KABUK = ['./', 'index.html', 'kaslar.js', 'kafatasi.js', 'kaynaklar.js', 'model3d.js', 'yerler.js', 'pdf/liste.js',
   'manifest.webmanifest', 'ikon/ikon-192.png', 'ikon/ikon-512.png', 'sesler1.js', 'sesler2.js'];
 
 self.addEventListener('install', e => {
