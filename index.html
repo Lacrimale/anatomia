@@ -366,9 +366,9 @@ body.tab-atlas .wrap{max-width:1180px}
     <div class="setgrid2">
       <label>Ses
         <select id="voiceSrc">
-          <option value="hazir">Hazır kayıt (internetsiz, ekran kapalıyken de çalar)</option>
-          <option value="kadin">Kadın sesi (cihazın sesi)</option>
-          <option value="erkek">Erkek sesi (cihazın sesi)</option>
+          <option value="hazir">Hazır kayıt (doğal erkek sesi, internetsiz)</option>
+          <option value="kadin">Kadın sesi (cihazın Türkçe kadın sesi)</option>
+          <option value="erkek">Erkek sesi (hazır kayıt; kaydı olmayanlar cihazın erkek sesiyle)</option>
         </select></label>
       <label id="voicePickWrap">Cihazdaki ses
         <select id="voicePick"></select></label>
@@ -552,6 +552,7 @@ body.tab-atlas .wrap{max-width:1180px}
 
 <script src="kaslar.js"></script>
 <script src="kafatasi.js"></script>
+<script src="kafatasi2.js"></script>
 <script>
 /* ---------- DATA ---------- */
 const GROUPS = {
@@ -2473,7 +2474,8 @@ function loadAudio(){if(AUD)return Promise.resolve(AUD);if(audPromise)return aud
     for(const [k,b64] of Object.entries(all)){const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);m[k]=URL.createObjectURL(new Blob([u],{type:'audio/mpeg'}))}
     AUD=m;updatePodUI();return m}).catch(()=>{audPromise=null;return null});
   return audPromise}
-const useAudio=()=>AUD&&$('#voiceMode').value==='tr'&&VS.src==='hazir';
+const kayitli=()=>VS.src==='hazir'||VS.src==='erkek'; // hazır kayıtlar doğal bir erkek sesidir
+const useAudio=()=>AUD&&$('#voiceMode').value==='tr'&&kayitli();
 const rateX=()=>Math.min(2,Math.max(.5,parseFloat($('#rate').value)/0.8));
 const player=new Audio();player.preload='auto';
 const tapAudio=new Audio();
@@ -2537,7 +2539,7 @@ async function playPod(){
   if(!pod.order.length){pod.order=podTerms();if($('#podShuffle').getAttribute('aria-pressed')==='true')pod.order=shuffle(pod.order);pod.pos=0;pod.rep=0;pod.step=0;pod.pass=0}
   if(!pod.order.length){toast('Seçili konularda terim yok.');return}
   pod.playing=true;updatePodUI();
-  const wantClips=$('#voiceMode').value==='tr'&&VS.src==='hazir';
+  const wantClips=$('#voiceMode').value==='tr'&&kayitli();
   if(!AUD&&wantClips){$('#nowInfo').textContent='Sesler yükleniyor…';
     // kullanıcı dokunuşu sırasında ses iznini aç
     player.src='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//NwwAAAAAAAAAAAAEluZm8AAAAPAAAAEAAACOAAIyMjIyMjMTExMTExQEBAQEBAT09PT09PXl5eXl5eXmxsbGxsbHt7e3t7e4qKioqKipiYmJiYmJinp6enp6e2tra2trbFxcXFxcXT09PT09PT4uLi4uLi8fHx8fHx////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQDmwAAAAAAAAjg8sdHwAAAAAAAAAAAAAAAAAD/81DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV//NSxHUAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVX/81LEiQAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVf/zUMSKAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVX/81LEiQAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVf/zUsSJAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVV//NQxIoAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVf/zUsSJAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVV//NQxIoAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVf/zUsSJAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVV//NSxIkAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVX/81DEigAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVV//NSxIkAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVX/81DEigAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV//NSxIkAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/81LEiQAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVQ==';player.play().catch(()=>{});
@@ -2587,17 +2589,16 @@ const genderOf=v=>{const n=(v.name||'')+' '+(v.voiceURI||''); // Android sesleri
 function chooseVoice(lang){ // lang: 'tr' (Türkçe okunuş) | 'la' (Latince yazım)
   const pref=lang==='tr'?['tr']:['it','la','es'];let cand=[];
   for(const p of pref){cand=voices.filter(x=>x.lang&&x.lang.toLowerCase().startsWith(p));if(cand.length)break}
-  if(!cand.length)return {v:null,pitch:VS.src==='kadin'?1.3:VS.src==='erkek'?0.7:1};
+  if(!cand.length)return {v:null,pitch:1};
   const want=VS.src==='kadin'?'k':VS.src==='erkek'?'e':'';
   if(want&&lang==='tr'&&VS.pick){const p=cand.find(x=>x.name===VS.pick);if(p)return {v:p,pitch:1}}
   if(!want)return {v:cand[0],pitch:1};
   const hit=cand.find(x=>genderOf(x)===want);if(hit)return {v:hit,pitch:1};
-  const v=cand.find(x=>!genderOf(x))||cand[0],g=genderOf(v); // uygun ses yoksa perdeyi değiştir
-  // telefonlarda tek Türkçe ses çoğunlukla kadın sesidir; erkek istenip bulunamazsa belirgin biçimde kalınlaştır
-  return {v,pitch:want==='k'?(g==='e'?1.5:1.3):0.5}}
+  const v=cand.find(x=>!genderOf(x))||cand[0]; // uygun cinsiyette ses yoksa cihazın kendi sesi doğal hâliyle kullanılır
+  return {v,pitch:1}} // perde değiştirilmez: yapay inceltme/kalınlaştırma sesi bozuyordu
 
 /* hazır ses kaydı varsa adresini verir (yalnızca “Hazır kayıt” seçiliyken) */
-function clipFor(key){if($('#voiceMode').value!=='tr'||VS.src!=='hazir')return null;return AUD&&AUD[key]?AUD[key]:null}
+function clipFor(key){if($('#voiceMode').value!=='tr'||!kayitli())return null;return AUD&&AUD[key]?AUD[key]:null}
 function applyTheme(){const r=document.documentElement;if(VS.theme==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',VS.theme);if(window.M3D)M3D.onShow()}
 function voiceUI(){
   $('#voiceSrc').value=VS.src;$('#themeSel').value=VS.theme;
@@ -2608,7 +2609,7 @@ function voiceUI(){
   if(tts){const want=VS.src==='kadin'?'k':'e';
     if(!('speechSynthesis' in window))note='Bu tarayıcı sesli okumayı desteklemiyor.';
     else if(!tr.length)note='Cihazında Türkçe ses bulunamadı; varsayılan ses kullanılır. Cihaz ayarlarından Türkçe konuşma sesi indirebilirsin.';
-    else if(!VS.pick&&!tr.some(v=>genderOf(v)===want))note=`Cihazında ayrı bir ${want==='k'?'kadın':'erkek'} sesi bulunamadı; mevcut ses ${want==='k'?'inceltilerek':'kalınlaştırılarak'} okunuyor.`;
+    else if(!VS.pick&&!tr.some(v=>genderOf(v)===want))note=want==="e"?"Kelimelerin çoğu hazır kayıtla (doğal erkek sesi) okunur. Hazır kaydı olmayan yeni terimler için cihazında erkek ses bulunamadı; onlar cihazın kendi sesiyle okunur.":"Cihazında ayrı bir kadın sesi bulunamadı; cihazın kendi sesi kullanılıyor. Telefon ayarlarındaki Metin okuma bölümünden Türkçe kadın sesi indirebilirsin.";
     else note='Cihaz sesi yalnızca ekran açıkken çalışır.'}
   else note='Yeni eklenen kas terimlerinin hazır kaydı yok; onlar cihaz sesiyle okunur.';
   $('#voiceNote').textContent=note}
